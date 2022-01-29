@@ -6,8 +6,9 @@ public class Util {
 
     private static final int[] _opcoes = new int[]{1,2,3,4,5,6,0};
 
-    public static String LerEntrada()
+    public static String LerEntrada(String textoEntrada)
     {
+        System.out.print(textoEntrada);
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
@@ -15,7 +16,18 @@ public class Util {
 
     public static OpcaoInserida Menu()
     {
-        System.out.print("\n" +
+        /*System.out.print("\n" +
+                "#####   MENU   #####\n" +
+                "1 - Carregar um arquivo\n" +
+                "2 - Localizar um contato\n" +
+                "3 - Inserir um contato\n"+
+                "4 - Excluir um contato\n" +
+                "5 - Atualizar contato\n"+
+                "6 - Salvar dados\n" +
+                "0 - Sair\n" +
+                "Escolha uma das opções acima: ");*/
+
+        String opcao = LerEntrada("\n" +
                 "#####   MENU   #####\n" +
                 "1 - Carregar um arquivo\n" +
                 "2 - Localizar um contato\n" +
@@ -25,8 +37,6 @@ public class Util {
                 "6 - Salvar dados\n" +
                 "0 - Sair\n" +
                 "Escolha uma das opções acima: ");
-
-        String opcao = LerEntrada();
         OpcaoInserida ret = new OpcaoInserida();
         ret.textoOpcao = opcao;
 

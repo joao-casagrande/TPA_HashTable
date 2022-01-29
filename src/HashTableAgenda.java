@@ -43,7 +43,7 @@ public class HashTableAgenda {
     public static void LocalizarContatoAgenda()
     {
         System.out.print("Digite o nome do contato: ");
-        String nome = Util.LerEntrada();
+        String nome = Util.LerEntrada("Digite o nome do contato: ");
         Registro contato = GetContato(nome);
         if(contato == null) System.out.println("Contato não encontrado!");
         else PrintarContato(contato);
