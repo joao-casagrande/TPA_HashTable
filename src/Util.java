@@ -15,10 +15,9 @@ public class Util {
 
     public static OpcaoInserida Menu()
     {
-        clearConsole();
         System.out.print("\n" +
                 "#####   MENU   #####\n" +
-                "1 - Carregar um arquivo;\n" +
+                "1 - Carregar um arquivo\n" +
                 "2 - Localizar um contato\n" +
                 "3 - Inserir um contato\n"+
                 "4 - Excluir um contato\n" +
@@ -80,27 +79,5 @@ public class Util {
 
         return soma % size;
     }
-
-    public final static void clearConsole()
-    {
-        try
-        {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows"))
-            {
-                Runtime.getRuntime().exec("cls");
-            }
-            else
-            {
-                Runtime.getRuntime().exec("clear");
-            }
-        }
-        catch (final Exception e)
-        {
-            //  Handle any exceptions.
-        }
-    }
-
 
 }

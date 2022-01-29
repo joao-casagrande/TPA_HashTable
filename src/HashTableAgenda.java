@@ -44,6 +44,10 @@ public class HashTableAgenda {
     {
         System.out.print("Digite o nome do contato: ");
         String nome = Util.LerEntrada();
+        Registro contato = GetContato(nome);
+        if(contato == null) System.out.println("Contato não encontrado!");
+        else PrintarContato(contato);
+        /*
         int indice = Util.CalculaIndiceTabela(nome, MAX_SIZE);
         ArrayList<Registro> localizado = _tabelaAgenda[indice];
         if(localizado == null) System.out.println("Contato não encontrado!");
@@ -64,34 +68,27 @@ public class HashTableAgenda {
             }
             if(!achou) System.out.println("Contato não encontrado! 3");
         }
-        else System.out.println("Contato não encontrado! 4");
+        else System.out.println("Contato não encontrado! 4");*/
     }
-
-    private static void PrintarContato(Registro contato)
-    {
-        //todo
-        System.out.println("PrintarContato!!!");
-    }
-
 
     public static void InserirContatoAgenda()
     {
-
+        //todo
     }
 
     public static void ExcluirContatoAgenda()
     {
-
+        //todo
     }
 
     public static void AtualizarContatoAgenda()
     {
-
+        //todo
     }
 
     public static void SalvarContatosAgenda()
     {
-
+        //todo
     }
 
     private static void ProcessarArquivoDeEntrada(File arquivo)
@@ -105,13 +102,8 @@ public class HashTableAgenda {
             String linha = br.readLine();
             while(linha!= null) {
                 AdicionarRegistro(linha);
-                //System.out.println(linha);
                 linha= br.readLine();
             }
-            /*while(br.readLine()!= null) {
-
-            }*/
-
             br.close();
 
         } catch (IOException e) {
@@ -152,5 +144,39 @@ public class HashTableAgenda {
        }
 
     }
+
+    private static Registro GetContato(String nome)
+    {
+        int indice = Util.CalculaIndiceTabela(nome, MAX_SIZE);
+        ArrayList<Registro> localizado = _tabelaAgenda[indice];
+        if(localizado == null) return null;
+        else if (localizado.size() == 1)
+        {
+            if(localizado.get(0).NomeCompleto.equals(nome)) return localizado.get(0);
+            else return null;
+        }
+        else if (localizado.size() > 1)
+        {
+            for (int i = 0; i < localizado.size(); i++) {
+                if(localizado.get(i).NomeCompleto.equals(nome))
+                    return localizado.get(i);
+            }
+            return null;
+        }
+        else return null;
+    }
+
+    private static void PrintarContato(Registro contato)
+    {
+        //todo
+        String leftAlignFormat = "| %-30s | %-15s | %-15s | %-15s |%n";
+        String linha = "+--------------------------------+-----------------+-----------------+-----------------+%n";
+        System.out.format(linha);
+        System.out.format(leftAlignFormat, "Nome Completo", "Telefone", "Cidade", "Pais");
+        System.out.format(linha);
+        System.out.format(leftAlignFormat, contato.NomeCompleto, contato.Telefone, contato.Cidade, contato.Pais);
+        System.out.format(linha);
+    }
+
 
 }
