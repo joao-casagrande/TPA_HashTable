@@ -42,11 +42,12 @@ public class HashTableAgenda {
 
     public static void LocalizarContatoAgenda()
     {
-        System.out.print("Digite o nome do contato: ");
-        String nome = Util.LerEntrada("Digite o nome do contato: ");
-        Registro contato = GetContato(nome);
-        if(contato == null) System.out.println("Contato não encontrado!");
-        else PrintarContato(contato);
+        String nome = Util.LerEntrada("Digite o NOME do contato a localizar: ");
+        int indiceTabela = Util.CalculaIndiceTabela(nome, MAX_SIZE);
+        int indiceLista = GetIndiceContato(nome, indiceTabela);
+        if(indiceLista == -1) System.out.println("Contato não encontrado!");
+        else PrintarContato(_tabelaAgenda[indiceTabela].get(indiceLista));
+
         /*
         int indice = Util.CalculaIndiceTabela(nome, MAX_SIZE);
         ArrayList<Registro> localizado = _tabelaAgenda[indice];
@@ -73,22 +74,98 @@ public class HashTableAgenda {
 
     public static void InserirContatoAgenda()
     {
-        //todo
+        String nome = Util.LerEntrada("Digite o NOME do contato a ser inserido: ");
+        String telefone = Util.LerEntrada("Digite o TELEFONE do contato a ser inserido: ");
+        String cidade = Util.LerEntrada("Digite a CIDADE do contato a ser inserido: ");
+        String pais = Util.LerEntrada("Digite o PAÍS do contato a ser inserido: ");
+
+        Registro novoRegistro = new Registro();
+        novoRegistro.NomeCompleto = nome;
+        novoRegistro.Telefone = telefone;
+        novoRegistro.Cidade = cidade;
+        novoRegistro.Pais = pais;
+        AdicionarRegistro(novoRegistro);
+
     }
 
     public static void ExcluirContatoAgenda()
     {
-        //todo
+        String nome = Util.LerEntrada("Digite o nome do contato a excluir: ");
+        int indiceTabela = Util.CalculaIndiceTabela(nome, MAX_SIZE);
+        int indiceLista = GetIndiceContato(nome, indiceTabela);
+        if(indiceLista == -1) System.out.println("Contato não encontrado!");
+        else {
+            _tabelaAgenda[indiceTabela].remove(indiceLista);
+            System.out.println("Usuário removido!");
+        }
     }
 
     public static void AtualizarContatoAgenda()
     {
-        //todo
+        String nome = Util.LerEntrada("Digite o NOME do contato a ser atualizado: ");
+
+        int indiceTabela = Util.CalculaIndiceTabela(nome, MAX_SIZE);
+        int indiceLista = GetIndiceContato(nome, indiceTabela);
+        if(indiceLista == -1) System.out.println("Contato não encontrado!");
+        else
+        {
+            PrintarContato(_tabelaAgenda[indiceTabela].get(indiceLista));
+            String telefone = Util.LerEntrada("Digite o NOVO TELEFONE do contato a ser atualizado: ");
+            String cidade = Util.LerEntrada("Digite a NOVA CIDADE do contato a ser atualizado: ");
+            String pais = Util.LerEntrada("Digite o NOVO PAÍS do contato a ser atualizado: ");
+
+            _tabelaAgenda[indiceTabela].get(indiceLista).Telefone = telefone;
+            _tabelaAgenda[indiceTabela].get(indiceLista).Cidade = cidade;
+            _tabelaAgenda[indiceTabela].get(indiceLista).Pais = pais;
+
+        }
+
+
     }
 
     public static void SalvarContatosAgenda()
     {
         //todo
+        String pasta = System.getProperty("user.home");
+        File arquivo = new File(pasta+"\\"+System.currentTimeMillis()+".csv");
+
+        try (PrintWriter writer = new PrintWriter(arquivo)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Nome Completo");
+            sb.append(',');
+            sb.append("Telefone");
+            sb.append(',');
+            sb.append("Cidade");
+            sb.append(',');
+            sb.append("País");
+            sb.append('\n');
+
+
+
+            for (int i = 0; i < _tabelaAgenda.length; i++) {
+                if(_tabelaAgenda[i] != null && _tabelaAgenda[i].size()>0)
+                {
+                    for (int j = 0; j < _tabelaAgenda[i].size(); j++) {
+                        sb.append(_tabelaAgenda[i].get(j).NomeCompleto);
+                        sb.append(',');
+                        sb.append(_tabelaAgenda[i].get(j).Telefone);
+                        sb.append(',');
+                        sb.append(_tabelaAgenda[i].get(j).Cidade);
+                        sb.append(',');
+                        sb.append(_tabelaAgenda[i].get(j).Pais);
+                        sb.append('\n');
+                    }
+                }
+            }
+
+            writer.write(sb.toString());
+
+
+            System.out.println(String.format("Dados salvos em '%s'. Pasta: %s",arquivo.getAbsolutePath() ,"file:///"+ pasta.replace("\\","/")));
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void ProcessarArquivoDeEntrada(File arquivo)
@@ -114,6 +191,12 @@ public class HashTableAgenda {
     private static void AdicionarRegistro(String linha)
     {
         Registro novoRegistro = CriarRegistroFromLinha(linha);
+        int indiceNovoRegistro = Util.CalculaIndiceTabela(novoRegistro.NomeCompleto, MAX_SIZE);
+        AdicionarNaTabela(novoRegistro, indiceNovoRegistro);
+    };
+
+    private static void AdicionarRegistro(Registro novoRegistro)
+    {
         int indiceNovoRegistro = Util.CalculaIndiceTabela(novoRegistro.NomeCompleto, MAX_SIZE);
         AdicionarNaTabela(novoRegistro, indiceNovoRegistro);
     };
@@ -145,25 +228,24 @@ public class HashTableAgenda {
 
     }
 
-    private static Registro GetContato(String nome)
+    private static int GetIndiceContato(String nome, int indiceTabela)
     {
-        int indice = Util.CalculaIndiceTabela(nome, MAX_SIZE);
-        ArrayList<Registro> localizado = _tabelaAgenda[indice];
-        if(localizado == null) return null;
+        ArrayList<Registro> localizado = _tabelaAgenda[indiceTabela];
+        if(localizado == null) return -1;
         else if (localizado.size() == 1)
         {
-            if(localizado.get(0).NomeCompleto.equals(nome)) return localizado.get(0);
-            else return null;
+            if(localizado.get(0).NomeCompleto.equals(nome)) return 0;
+            else return -1;
         }
         else if (localizado.size() > 1)
         {
             for (int i = 0; i < localizado.size(); i++) {
                 if(localizado.get(i).NomeCompleto.equals(nome))
-                    return localizado.get(i);
+                    return i;
             }
-            return null;
+            return -1;
         }
-        else return null;
+        else return -1;
     }
 
     private static void PrintarContato(Registro contato)
