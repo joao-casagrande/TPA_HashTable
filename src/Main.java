@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -20,7 +18,7 @@ public class Main {
                     System.exit(0);
                 }
                 case 98 -> System.out.println("Opção inserida inválida");
-                case 99 -> System.out.println(String.format("'%s' Não é um número", opcaoSelecionada.textoOpcao));
+                case 99 -> System.out.printf("'%s' Não é um número%n", opcaoSelecionada.textoOpcao);
             }
             opcaoSelecionada = Util.Menu();
 

@@ -16,27 +16,17 @@ public class Util {
 
     public static OpcaoInserida Menu()
     {
-        /*System.out.print("\n" +
-                "#####   MENU   #####\n" +
-                "1 - Carregar um arquivo\n" +
-                "2 - Localizar um contato\n" +
-                "3 - Inserir um contato\n"+
-                "4 - Excluir um contato\n" +
-                "5 - Atualizar contato\n"+
-                "6 - Salvar dados\n" +
-                "0 - Sair\n" +
-                "Escolha uma das opções acima: ");*/
+        String opcao = LerEntrada("""
 
-        String opcao = LerEntrada("\n" +
-                "#####   MENU   #####\n" +
-                "1 - Carregar um arquivo\n" +
-                "2 - Localizar um contato\n" +
-                "3 - Inserir um contato\n"+
-                "4 - Excluir um contato\n" +
-                "5 - Atualizar contato\n"+
-                "6 - Salvar dados\n" +
-                "0 - Sair\n" +
-                "Escolha uma das opções acima: ");
+                #####   MENU   #####
+                1 - Carregar um arquivo
+                2 - Localizar um contato
+                3 - Inserir um contato
+                4 - Excluir um contato
+                5 - Atualizar contato
+                6 - Salvar dados
+                0 - Sair
+                Escolha uma das opções acima:\s""");
         OpcaoInserida ret = new OpcaoInserida();
         ret.textoOpcao = opcao;
 

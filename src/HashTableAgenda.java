@@ -7,37 +7,17 @@ public class HashTableAgenda {
 
     private static int _colisoes = 0;
 
-    private static int MAX_SIZE = 559;
-
-    public static ArrayList<Registro>[] tabelaAgenda() {
-        return _tabelaAgenda;
-    }
-
-    public static int colisoes() {
-        return _colisoes;
-    }
+    private static final int MAX_SIZE = 559;
 
     public HashTableAgenda()
     {
-        this._tabelaAgenda = new ArrayList[MAX_SIZE];
+        _tabelaAgenda = new ArrayList[MAX_SIZE];
     }
 
     public static void CarregarArquivoCSV()
     {
         File arquivo = new ChooseFile().GetFile();
         ProcessarArquivoDeEntrada(arquivo);
-        /*JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Arquivos .csv", "csv");
-
-        chooser.setFileFilter(filter);
-        int returnVal = chooser.showOpenDialog(null);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " +
-                    chooser.getSelectedFile().getName());
-            File arquivo = chooser.getSelectedFile();
-            //ProcessarArquivoDeEntrada(arquivo);
-        }*/
     }
 
     public static void LocalizarContatoAgenda()
@@ -47,29 +27,6 @@ public class HashTableAgenda {
         int indiceLista = GetIndiceContato(nome, indiceTabela);
         if(indiceLista == -1) System.out.println("Contato não encontrado!");
         else PrintarContato(_tabelaAgenda[indiceTabela].get(indiceLista));
-
-        /*
-        int indice = Util.CalculaIndiceTabela(nome, MAX_SIZE);
-        ArrayList<Registro> localizado = _tabelaAgenda[indice];
-        if(localizado == null) System.out.println("Contato não encontrado!");
-        else if (localizado.size() == 1)
-        {
-            if(localizado.get(0).NomeCompleto.equals(nome))PrintarContato(localizado.get(0));
-            else System.out.println("Contato não encontrado! 2");
-        }
-        else if (localizado.size() > 1)
-        {
-            boolean achou = false;
-            for (int i = 0; i < localizado.size(); i++) {
-                if(localizado.get(i).NomeCompleto.equals(nome))
-                {
-                    PrintarContato(localizado.get(i));
-                    achou = true;
-                }
-            }
-            if(!achou) System.out.println("Contato não encontrado! 3");
-        }
-        else System.out.println("Contato não encontrado! 4");*/
     }
 
     public static void InserirContatoAgenda()
@@ -141,18 +98,16 @@ public class HashTableAgenda {
             sb.append('\n');
 
 
-
-            for (int i = 0; i < _tabelaAgenda.length; i++) {
-                if(_tabelaAgenda[i] != null && _tabelaAgenda[i].size()>0)
-                {
-                    for (int j = 0; j < _tabelaAgenda[i].size(); j++) {
-                        sb.append(_tabelaAgenda[i].get(j).NomeCompleto);
+            for (ArrayList<Registro> tabelaAgendum : _tabelaAgenda) {
+                if (tabelaAgendum != null && tabelaAgendum.size() > 0) {
+                    for (Registro registro : tabelaAgendum) {
+                        sb.append(registro.NomeCompleto);
                         sb.append(',');
-                        sb.append(_tabelaAgenda[i].get(j).Telefone);
+                        sb.append(registro.Telefone);
                         sb.append(',');
-                        sb.append(_tabelaAgenda[i].get(j).Cidade);
+                        sb.append(registro.Cidade);
                         sb.append(',');
-                        sb.append(_tabelaAgenda[i].get(j).Pais);
+                        sb.append(registro.Pais);
                         sb.append('\n');
                     }
                 }
@@ -161,7 +116,7 @@ public class HashTableAgenda {
             writer.write(sb.toString());
 
 
-            System.out.println(String.format("Dados salvos em '%s'. Pasta: %s",arquivo.getAbsolutePath() ,"file:///"+ pasta.replace("\\","/")));
+            System.out.printf("Dados salvos em '%s'. Pasta: %s%n",arquivo.getAbsolutePath() ,"file:///"+ pasta.replace("\\","/"));
 
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -184,7 +139,7 @@ public class HashTableAgenda {
             br.close();
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -193,13 +148,13 @@ public class HashTableAgenda {
         Registro novoRegistro = CriarRegistroFromLinha(linha);
         int indiceNovoRegistro = Util.CalculaIndiceTabela(novoRegistro.NomeCompleto, MAX_SIZE);
         AdicionarNaTabela(novoRegistro, indiceNovoRegistro);
-    };
+    }
 
     private static void AdicionarRegistro(Registro novoRegistro)
     {
         int indiceNovoRegistro = Util.CalculaIndiceTabela(novoRegistro.NomeCompleto, MAX_SIZE);
         AdicionarNaTabela(novoRegistro, indiceNovoRegistro);
-    };
+    }
 
     private static Registro CriarRegistroFromLinha(String linha)
     {
