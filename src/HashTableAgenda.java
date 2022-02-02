@@ -47,6 +47,7 @@ public class HashTableAgenda {
         novoRegistro.Cidade = cidade;
         novoRegistro.Pais = pais;
         AdicionarRegistro(novoRegistro);
+        System.out.println("Usuário inserido com sucesso!");
 
     }
 
@@ -79,6 +80,8 @@ public class HashTableAgenda {
             _tabelaAgenda[indiceTabela].get(indiceLista).Telefone = telefone;
             _tabelaAgenda[indiceTabela].get(indiceLista).Cidade = cidade;
             _tabelaAgenda[indiceTabela].get(indiceLista).Pais = pais;
+
+            System.out.println("Usuário atualizado com sucesso!");
 
         }
 
