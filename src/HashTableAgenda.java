@@ -7,6 +7,8 @@ public class HashTableAgenda {
 
     private static int _colisoes = 0;
 
+    public static boolean arquivoCarregado = false;
+
     private static final int MAX_SIZE = 559;
 
     public HashTableAgenda()
@@ -17,7 +19,10 @@ public class HashTableAgenda {
     public static void CarregarArquivoCSV()
     {
         File arquivo = new ChooseFile().GetFile();
+        System.out.println("Carregando arquivo "+arquivo.getName());
         ProcessarArquivoDeEntrada(arquivo);
+        System.out.println("Arquivo carregado!");
+        arquivoCarregado = true;
     }
 
     public static void LocalizarContatoAgenda()
@@ -127,6 +132,7 @@ public class HashTableAgenda {
     {
         _tabelaAgenda = new ArrayList[MAX_SIZE];
         _colisoes = 0;
+        arquivoCarregado = false;
 
         try{
             InputStream inputFS = new FileInputStream(arquivo);

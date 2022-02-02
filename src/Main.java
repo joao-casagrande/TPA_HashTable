@@ -1,10 +1,20 @@
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
 
         OpcaoInserida opcaoSelecionada = Util.Menu();
+
         while(true)
         {
+            if(!HashTableAgenda.arquivoCarregado && opcaoSelecionada.codigoOpcao != 1
+                    && opcaoSelecionada.codigoOpcao != 98
+                    && opcaoSelecionada.codigoOpcao != 99
+                    && opcaoSelecionada.codigoOpcao != 0
+            )
+                System.out.println("É necessário carregar um arquivo antes de usar essa função.");
+            else
             switch (opcaoSelecionada.codigoOpcao) {
                 case 1 -> HashTableAgenda.CarregarArquivoCSV();
                 case 2 -> HashTableAgenda.LocalizarContatoAgenda();
