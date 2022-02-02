@@ -8,6 +8,7 @@ public class Main {
 
         while(true)
         {
+            //Caso não haja um arquivo carregado ainda e não for alguma das opções abaixo
             if(!HashTableAgenda.arquivoCarregado && opcaoSelecionada.codigoOpcao != 1
                     && opcaoSelecionada.codigoOpcao != 98
                     && opcaoSelecionada.codigoOpcao != 99
