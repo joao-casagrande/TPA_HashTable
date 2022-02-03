@@ -5,11 +5,21 @@ public class HashTableAgenda {
 
     private static ArrayList<Registro>[] _tabelaAgenda;
 
-    private static int _colisoes = 0;
+    private static long _colisoes = 0;
+    public static long colisoes(){
+        return _colisoes;
+    }
 
     public static boolean arquivoCarregado = false;
 
-    private static final int MAX_SIZE = 559;
+    private static int MAX_SIZE = 559;
+
+    public static int GetTableSize(){
+        return MAX_SIZE;
+    }
+    public static void SetTableSize(int newSize){
+        MAX_SIZE = newSize;
+    }
 
     public HashTableAgenda()
     {
@@ -18,16 +28,18 @@ public class HashTableAgenda {
 
     public static void CarregarArquivoCSV()
     {
-        File arquivo = new ChooseFile().GetFile(); //Chama a janela para a escolha do arquivo
-        System.out.println("Carregando arquivo "+arquivo.getName());
+        File arquivo = new File("C:\\Users\\joao\\Documents\\AgendaTeste1M.csv");// new ChooseFile().GetFile(); //Chama a janela para a escolha do arquivo
+        //System.out.println("Caminho:  "+arquivo.getAbsolutePath());
+        //System.out.println("Carregando arquivo "+arquivo.getName());
         ProcessarArquivoDeEntrada(arquivo); //Função que processa as linhas
-        System.out.println("Arquivo carregado!");
+        //System.out.println("Arquivo carregado!");
         arquivoCarregado = true; //Variável que habilita o uso das outras funções
     }
 
     public static void LocalizarContatoAgenda()
     {
-        String nome = Util.LerEntrada("Digite o NOME do contato a localizar: "); //Lê o nome do contato a ser localizado
+        //String nome = Util.LerEntrada("Digite o NOME do contato a localizar: "); //Lê o nome do contato a ser localizado
+        String nome = "Herbert Gutkowski";
         int indiceTabela = Util.CalculaIndiceTabela(nome, MAX_SIZE); //Calcula o índice pelo nome
         int indiceLista = GetIndiceContato(nome, indiceTabela); //Procura o contato no índice da tabela encontrado
         if(indiceLista == -1) System.out.println("Contato não encontrado!"); //Caso não ache o nome, erro
@@ -139,6 +151,7 @@ public class HashTableAgenda {
         // Redefinição das variáveis para um arquivo novo, ou seja, um "ambiente" novo
         _tabelaAgenda = new ArrayList[MAX_SIZE];
         _colisoes = 0;
+        //System.out.println(_colisoes);
         arquivoCarregado = false;
         //****************//
         try{
@@ -195,7 +208,8 @@ public class HashTableAgenda {
        else
        {
            _tabelaAgenda[indice].add(novoRegistro);
-           _colisoes++;
+           //System.out.println(novoRegistro.NomeCompleto+" - "+indice);
+           _colisoes = _colisoes + 1;
        }
 
     }
