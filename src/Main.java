@@ -23,19 +23,19 @@ public class Main {
             sb.append('\n');
 
 
-            for (int i = primes.length-1; i >=0; i--) {
-            //for (int i = 0; i < primes.length; i++) {
-                HashTableAgenda.SetTableSize(primes[i]);
+            //for (int i = primes.length-1; i >=0; i--) {
+            for (int prime : primes) {
+                HashTableAgenda.SetTableSize(prime);
                 System.out.println(HashTableAgenda.GetTableSize());
                 long inicioCarregamento = System.currentTimeMillis();
                 HashTableAgenda.CarregarArquivoCSV();
                 long fimCarregamento = System.currentTimeMillis();
-                long TEMPO_CARREGAMENTO = fimCarregamento-inicioCarregamento;
+                long TEMPO_CARREGAMENTO = fimCarregamento - inicioCarregamento;
 
                 long inicioBusca = System.currentTimeMillis();
                 HashTableAgenda.LocalizarContatoAgenda();
                 long fimBusca = System.currentTimeMillis();
-                long TEMPO_BUSCA = fimBusca-inicioBusca;
+                long TEMPO_BUSCA = fimBusca - inicioBusca;
 
 
                 sb.append(HashTableAgenda.GetTableSize());
