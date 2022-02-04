@@ -78,7 +78,7 @@ public class Util {
     {
         int soma = 0;
         for (int i = 0; i < key.length(); i++) {
-            soma += key.charAt(i);
+            soma += (int)key.charAt(i) ^16;
         }
 
         return soma % size;
